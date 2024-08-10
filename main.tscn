@@ -1,0 +1,68 @@
+[gd_scene load_steps=8 format=3 uid="uid://bhwge8rtian53"]
+
+[ext_resource type="Script" path="res://main.gd" id="1_ufmcy"]
+[ext_resource type="Script" path="res://area.gd" id="2_a72hx"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2lldo"]
+size = Vector2(200, 100)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_vw21g"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_k3xg7"]
+normal = Vector2(0, 1)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_higrh"]
+normal = Vector2(1, 0)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_2cls7"]
+normal = Vector2(-1, 0)
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_ufmcy")
+
+[node name="Area2D Slow" type="Area2D" parent="."]
+position = Vector2(495, 248)
+script = ExtResource("2_a72hx")
+time_factor = 0.5
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D Slow"]
+shape = SubResource("RectangleShape2D_2lldo")
+debug_color = Color(0.90092, 0.273381, 0.38809, 0.42)
+
+[node name="Area2D2 Fast" type="Area2D" parent="."]
+position = Vector2(854, 432)
+script = ExtResource("2_a72hx")
+time_factor = 2.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D2 Fast"]
+shape = SubResource("RectangleShape2D_2lldo")
+debug_color = Color(0.152941, 0.596078, 0.109804, 0.419608)
+
+[node name="Borders" type="Node2D" parent="."]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Borders"]
+position = Vector2(0, 648)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Borders/StaticBody2D"]
+shape = SubResource("WorldBoundaryShape2D_vw21g")
+
+[node name="StaticBody2D3" type="StaticBody2D" parent="Borders"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Borders/StaticBody2D3"]
+shape = SubResource("WorldBoundaryShape2D_k3xg7")
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="Borders"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Borders/StaticBody2D2"]
+shape = SubResource("WorldBoundaryShape2D_higrh")
+
+[node name="StaticBody2D4" type="StaticBody2D" parent="Borders"]
+position = Vector2(1152, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Borders/StaticBody2D4"]
+shape = SubResource("WorldBoundaryShape2D_2cls7")
+
+[connection signal="body_entered" from="Area2D Slow" to="Area2D Slow" method="_on_body_entered"]
+[connection signal="body_exited" from="Area2D Slow" to="Area2D Slow" method="_on_body_exited"]
+[connection signal="body_entered" from="Area2D2 Fast" to="Area2D2 Fast" method="_on_body_entered"]
+[connection signal="body_exited" from="Area2D2 Fast" to="Area2D2 Fast" method="_on_body_exited"]
